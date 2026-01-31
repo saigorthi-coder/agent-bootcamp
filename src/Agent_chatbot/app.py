@@ -26,7 +26,7 @@ from src.utils import CodeInterpreter
 # ---- chatbot agents & tools ----
 from bot_agents.orchestrator import build_orchestrator_agent
 from bot_agents.sql_agent import build_sql_agent
-from bot_agents.viz_agent import build_visualization_agent
+#from bot_agents.viz_agent import build_visualization_agent
 from tools.bigquery_tool import run_bigquery_query
 
 
@@ -94,20 +94,20 @@ if __name__ == "__main__":
         ),
     )
 
-    # ---- Visualization agent (Code Interpreter / E2B) ----
-    code_interpreter = CodeInterpreter(local_files=[])
-    visualization_agent = build_visualization_agent(
-        code_interpreter=code_interpreter,
-        model=agents.OpenAIChatCompletionsModel(
-            model=worker_model,
-            openai_client=client_manager.openai_client,
-        ),
-    )
+    # # ---- Visualization agent (Code Interpreter / E2B) ----
+    #    visualization_agent = build_visualization_agent(
+    #     code_interpreter=code_interpreter,
+    #     model=agents.OpenAIChatCompletionsModel(
+    #         model=worker_model,
+    #         openai_client=client_manager.openai_client,
+    #     ),
+    # )
 
     # ---- Orchestrator agent ----
     orchestrator_agent = build_orchestrator_agent(
         sql_agent=sql_agent,
-        visualization_agent=visualization_agent,
+        code_interpreter=CodeInterpreter(),
+        #visualization_agent=visualization_agent,
         model=agents.OpenAIChatCompletionsModel(
             model=planner_model,
             openai_client=client_manager.openai_client,
